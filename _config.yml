@@ -1,11 +1,11 @@
 # Site settings
 author: Kelsey Shiba
-title: 
+title: Kelsey Shiba's Technical Blog
 header-img: img/home-bg.png
 email: kelsey.shiba@gmail.com
 copyright_name: Kelsey Shiba
 description: > # this means to ignore newlines until "baseurl:"
-  
+  Technical Details
 baseurl: "" # the subpath of your site, e.g. /blog
 twitter_username: 
 github_username:  kelseyshiba
