@@ -20,6 +20,4 @@ I have been a lifetime learner for as long as I can remember.  Being in a univer
 
 I was drawn to Software Engineering after a musician friend of mine completed a similar program a few years ago.  I love the idea of understanding how things are working, the challenging and complicated world in which they exist, and the possibility of creating a fully functioning application or website that can serve the needs of others in a unique way.  I love problem solving, and I am most drawn to the idea of something that never stops evolving where I can always be learning something new.  I also want to try to earn a job that is flexible, versatile, and exciting where I could also be present with my family during my son's young development.  
 
-I am looking forward to completing this track so I can springboard myself into a new, exciting future.  I know it will be extremely challenging as I will need to retrain my musical brain to think differently, but I could not be more enthusiastic about the potential to serve my musical community with my new set of skills if the opportunity presents itself.  # Enter your title here
-
-The content of your blog post goes here.
+I am looking forward to completing this track so I can springboard myself into a new, exciting future.  I know it will be extremely challenging as I will need to retrain my musical brain to think differently, but I could not be more enthusiastic about the potential to serve my musical community with my new set of skills if the opportunity presents itself. 
