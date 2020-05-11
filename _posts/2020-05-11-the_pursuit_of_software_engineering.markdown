@@ -1,7 +1,7 @@
 ---
 layout: post
 title:      "The Pursuit of Software Engineering"
-date:       2020-05-11 16:50:48 +0000
+date:       2020-05-11 12:50:49 -0400
 permalink:  the_pursuit_of_software_engineering
 ---
 
