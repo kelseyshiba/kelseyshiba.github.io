@@ -1,7 +1,7 @@
 ---
 layout: post
-title:      "Data types, road blocks and how to work on them"
-date:       2020-05-28 03:42:46 +0000
+title:      "Data types, road blocks and process"
+date:       2020-05-27 23:42:46 -0400
 permalink:  data_types_road_blocks_and_how_to_work_on_them
 ---
 
