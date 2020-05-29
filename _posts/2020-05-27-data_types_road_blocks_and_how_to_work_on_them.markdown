@@ -43,7 +43,8 @@ I often asked myself these two questions:
 I found that I was often incorrect. For instance, there was one point in my code where I returned an array of objects. For some reason, it was difficult for me to conceptualize how to access objects inside of an array that I filtered.  In order to access the object attributes that I needed, let's say object.name for example, I had to iterate over the array and pull out those items:
 
 ```
-```Array.each { |object| puts object.name}
+Array.each { |object| puts object.name}
+```
 
 I learned more about enumerables and iteration the hard way, so I always tried to break certain things down for myself in layman's terms. For example, *collect* and *select.* I have a difficult time differentiating the two, and when to use those over the *each* iterator. Therefore, I devised:
 
@@ -61,6 +62,7 @@ https://drive.google.com/file/d/1Z2afN9rdtr8xigeRL325xyfow5AbYa0a/view?usp=shari
 I also noticed a few patterns that I started to follow, especially when accepting input to check for verification. 
 
 Pattern for input verification:
+
 ```
 input = gets.strip.downcase
 until condition/input == exactly this || or this || or this || input.to_i.between(1, array.length)
