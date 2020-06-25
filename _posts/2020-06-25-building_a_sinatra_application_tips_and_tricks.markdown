@@ -1,7 +1,7 @@
 ---
 layout: post
 title:      "Building A Sinatra Application Tips & Tricks"
-date:       2020-06-25 18:03:45 +0000
+date:       2020-06-25 14:03:46 -0400
 permalink:  building_a_sinatra_application_tips_and_tricks
 ---
 
@@ -28,6 +28,7 @@ The biggest piece missing for me during the setup was that I need to include in 
 ```
 use Rack::MethodOverride
 ```
+This is the piece that allows your POST => patch/delete functions to work.
 
 Also, when and if you decide to use Sinatra Flash, be sure to do the following steps:
 
@@ -46,11 +47,11 @@ You can also steal some HTML/Ruby to make your flash look nice above the yield i
       <%= flash[type] %>
       <a href="#" class="close">&times;</a>
       </div>
-  <% end %>
+ <% end %>
 	
-	add CSS with
+add CSS with
 	
-	.flash {
+.flash {
 	     background-color: yourchoice
 	}
 ```
@@ -62,7 +63,19 @@ When creating a new file be sure to follow the routes that it needs in order for
 
 For example, when adding a new controller, remember to trace it back to make it work. To make a controller, add the use ControllerName in your config.ru file.
 
-When adding a new model, you'll need to trace its relationships, validations, and database. Be sure to add any belongs_to, has_many, has_secure_password to your objects, create the database with rake db:create_migration NAME=name_of_table and add any relevant columns, and add validates: email/name/password, presence: true.
+```
+use ControllerName
+run ApplicationController
+```
+
+When adding a new model, you'll need to trace its relationships, validations, and database. Be sure to add any belongs_to, has_many, has_secure_password to your objects, create the database with rake db:create_migration NAME=name_of_table and add any relevant columns, and validations
+
+```
+class User
+has_secure_password
+validates: email/username/password, presence: true, uniqueness: true, confirmation: true
+end
+```
 
 When adding a new view, be sure to add the get request that renders that view, and add 1 line of HTML to be sure you can see the view after rendering. 
 
@@ -77,7 +90,7 @@ end
 ```
 
 **Adding/Deleting Columns**
-I had some trouble figuring out whether or not I needed to seed / reseed my database after making changes. As it turns out, that was not necessary most of the time. What worked the best when adding or deleting columns, whether whole columns or just to make minor name changes, this code worked best.  Additionally, adding a reset command to the object that I was making changes to helped immensely.
+I had some trouble figuring out whether or not I needed to seed / reseed my database after making changes. As it turns out, that was not necessary most of the time. This is what worked the best when adding or deleting columns--whether it was whole columns or just to make minor name changes.  Additionally, adding a reset command to the object that I was making changes to helped as it reset those columns to include those changes.
 
 ```
 class AddColumnsToAppointments < ActiveRecord::Migration
@@ -94,9 +107,9 @@ end
 **Understanding Relationships**
 This is a work in progress for me. When I initially setup the project it seemed like it would make sense in the real world for the following to be true:
 
-Teachers would have many appointments, and many students through appointments
-Appointments would belong to Students and Teachers
-Students would have many appointments, and belong to teachers
+- Teachers would have many appointments, and many students through appointments
+- Appointments would belong to Students and Teachers
+- Students would have many appointments, and belong to teachers
 
 When I worked through the true functionality of the application, the students did not need to belong_to teachers, because the teachers had many students through the appointments made and there was no need for the teachers to see the students they had without the need to view their appointments.  This was difficult to grasp but it made sense as that would almost be creating an unneccesary duplicate relationship. 
 
@@ -126,9 +139,9 @@ def logged_in?
     end
 ```
 
-When using session[:user_id] the current_user method was finding both a student and a teacher using find_by_id (4) -- as 4 was the session[:user_id].  Making that distinction solved the issue and allowed me to create specific parts in the views using is_teacher? and is_student? logic. 
+When using session[:user_id] the current_user method was finding both a student and a teacher using find_by_id (4) -- as 4 was the session[:user_id] and 4 was the id for a teacher and a student.  Making the distinction between session[:teacher_id] and session[:student_id] solved the issue and allowed me to create specific parts in the views using is_teacher? and is_student? logic. 
 
-I originally solved it by adding the student object/teacher object to the session with session[:class] = student object, but it was advised that I never push an object into the session, which is good advice!
+I originally solved it by adding the student object/teacher object to the session with session[:class] = student object, but it was advised that I never push an object into the session, which is good to know.
 
 **Using Logic in the Views**
 
@@ -157,7 +170,7 @@ end
 Both of these were very helpful in getting logic outside of the views. 
 
 **Protecting Routes**
-One of the best lines of code I learned from other students in my cohort was this line:
+One of the best lines of code I learned from other students in my cohort was this:
 
 ```
 not_found do
@@ -170,7 +183,7 @@ This code will render an error page if someone enters a bad url such as:
 
 127.0.0.1:9393/sldkfjalsjfdsla;j
 
-Creating if/else logic to assist with bad data/input was very useful.  A pattern that I picked up, especially from patch or post requests that required creating something was to:
+Creating if/else logic to assist with bad data/input was very useful.  A pattern that I picked up, especially from patch or post requests that required creating something was this:
 
 - access the object and set to variable
 - check if that params are valid
