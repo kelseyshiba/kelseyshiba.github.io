@@ -37,6 +37,7 @@ require 'sinatra/flash' in main controller
 register Sinatra::Flash in main controller inside configure do
 gem install sinatra-flash in your bash terminal
 place gem 'sinatra-flash', '~> 0.3.0' in your Gemfile
+run bundle install
 ```
 
 You can also steal some HTML/Ruby to make your flash look nice above the yield in the layout with something like this:
@@ -56,7 +57,7 @@ add CSS with
 	}
 ```
 
-Use flash[:message] = "Whatever message you want at the top of your page"
+Use flash[:message] = "Whatever message you want at the top of your page" inside your controller(s).
 
 **Creating New Files**
 When creating a new file be sure to follow the routes that it needs in order for it to work before adding more code. 
@@ -68,7 +69,7 @@ use ControllerName
 run ApplicationController
 ```
 
-When adding a new model, you'll need to trace its relationships, validations, and database. Be sure to add any belongs_to, has_many, has_secure_password to your objects, create the database with rake db:create_migration NAME=name_of_table and add any relevant columns, and validations
+When adding a new model, you'll need to trace its relationships, validations, and database. Be sure to add any belongs_to, has_many, has_secure_password to your objects, create the database with rake db:create_migration NAME=name_of_table and add any relevant columns and validations.
 
 ```
 class User
@@ -90,7 +91,7 @@ end
 ```
 
 **Adding/Deleting Columns**
-I had some trouble figuring out whether or not I needed to seed / reseed my database after making changes. As it turns out, that was not necessary most of the time. This is what worked the best when adding or deleting columns--whether it was whole columns or just to make minor name changes.  Additionally, adding a reset command to the object that I was making changes to helped as it reset those columns to include those changes.
+I had some trouble figuring out whether or not I needed to seed or reseed my database after making changes. As it turns out, that was not necessary most of the time. This is what worked the best when adding or deleting columns--whether it was whole columns or just to make minor name changes.  Additionally, adding a reset command to the object that I was making changes to helped as it reset those columns to include those changes.
 
 ```
 class AddColumnsToAppointments < ActiveRecord::Migration
@@ -115,7 +116,7 @@ When I worked through the true functionality of the application, the students di
 
 
 **Using Two Different Users to Login**
-This concept was very hard for me to figure out. If I were giving advice to myself, I would advise myself to write a Users class and have Students and Teachers inherit from that class in order to login/signup.  However, it was an interesting challenge to have to work with.  Here is the helper methods that allowed me to have compelete functionality. 
+This concept was very hard for me to figure out. If I were giving advice to myself, I would advise myself to write a Users class and have Students and Teachers inherit from that class in order to login/signup.  However, it was an interesting challenge to have to work with.  Here are the helper methods that allowed me to have compelete functionality. 
 
 ```
 def logged_in?
