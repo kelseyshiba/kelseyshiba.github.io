@@ -1,7 +1,7 @@
 ---
 layout: post
 title:      "HELP with Helpers, Content Tags, & Collections"
-date:       2020-08-03 00:23:16 +0000
+date:       2020-08-02 20:23:17 -0400
 permalink:  help_with_helpers_content_tags_and_collections
 ---
 
@@ -18,39 +18,52 @@ There is a wonderful resource I used when adding images to my project.  I would 
 
 **HTML**
 
-```<img src="app/assets/google-logo.jpg" alt="fb-logo" class="card-img-top">
+```
+<img src="app/assets/google-logo.jpg" alt="fb-logo" class="card-img-top">
 ```
 
 **ERB (View File)**
-```<img src="<%= asset_path 'fb-logo.png'%>" alt="fb-logo" class="card-img-top">
+
+```
+<img src="<%= asset_path 'fb-logo.png'%>" alt="fb-logo" class="card-img-top">
 ```
 
 **Helper Abstracted**
-```   def show_google_img
-```     image_tag(asset_path('google-logo.jpg'), {class: 'card-img-top'})
- ```  end
  
-** New ERB (View File)**
- ```<%= show_google_img %>
- ```
+```
+def show_google_img
+     image_tag(asset_path('google-logo.jpg'), {class: 'card-img-top'})
+end
+```
+
+**New ERB (View File)**
+
+
+```
+<%= show_google_img %>
+```
  
  Here is the extracted output for each:
  
-image_tag 
-```<img class="card-img-top" src="/assets/google-logo-```8ccc923de01fa9a0668090cb43bf4a3b907d2d2a27b57793189fd0c32536b8d6.jpg">
+image_tag
+
+<img class="card-img-top" src="/assets/google-logo-ccc923de01fa9a0668090cb43bf4a3b907d2d2a27b57793189fd0c32536b8d6.jpg">
 
 html img src with asset_path
-```<img src="/assets/google-logo-8ccc923de01fa9a0668090cb43bf4a3b907d2d2a27b57793189fd0c32536b8d6.jpg" ```alt="google-logo" class="card-img-top">
+<img src="/assets/google-logo-8ccc923de01fa9a0668090cb43bf4a3b907d2d2a27b57793189fd0c32536b8d6.jpg" alt="google-logo" class="card-img-top">
 
 html
-```<img src="/app/assets/images/google-logo.jpb" alt="google-logo" class="card-img-top">
+<img src="/app/assets/images/google-logo.jpb" alt="google-logo" class="card-img-top">
 
 
 All Three in the View Together
-     ```1.<%= show_google_img %>
-     ```2.<img src="<%= asset_path 'google-logo.jpg'%>" alt='google-logo' class='card-img-top'>
-     ```3.<img src="/app/assets/images/google-logo.jpg" alt='google-logo' class='card-img-top'>
-		 ```
+
+```
+     1.<%= show_google_img %>
+     2.<img src="<%= asset_path 'google-logo.jpg'%>" alt='google-logo' class='card-img-top'>
+     3.<img src="/app/assets/images/google-logo.jpg" alt='google-logo' class='card-img-top'>
+```
+		
 
 You can see that #1 makes things very skinny and clear for the view page!
 
@@ -62,7 +75,9 @@ I used a lot of buttons throughout my Rails project. I often wondered how much w
 In order to keep the GET request, I made some of the links into content tags, and used Bootstrap classes to make them into buttons so they would look nice to the user.  
 
 Here is the code:
-```content_tag(:a, 'All Gigs', {href: gigs_path, class: 'btn btn-dark'})
+
+```
+content_tag(:a, 'All Gigs', {href: gigs_path, class: 'btn btn-dark'})
 ```
 
 **Tips**
@@ -71,7 +86,7 @@ I was often missing the comma after the first argument (":a") and that would thr
 Here's what they look like:
 
 Blog1
-
+https://drive.google.com/file/d/1VewmWED64aVh3Ue9vMtvwZtmGA1NQBRl/view?usp=sharing
 
 **Delete**
 
@@ -83,25 +98,27 @@ button_to('Delete User', user_path(user), method: :delete, data: {confirm: 'Dele
 
 The other cool part was including the "data: {confirm: 'Delete'}" which created an additional confirmation pop-up box before a user was allowed to fully delete an item. 
 
-Blog3 Photo
+https://drive.google.com/file/d/18cWMwVJ3AJx0O6ddWAnE0M4Zty-oSLQ4/view?usp=sharing
 
 ## Many Links
 There is probably a better way to do this, but in order to display many links inside of a helper method, I used content tags and "tag(:br) + ". This added a <br> between each of the links and the "+" sign allowed all of them to show. Without the "+" sign, it would only read the last one inside of the method. 
 
 
-```def show_admin_links(current_user)
+```
+def show_admin_links(current_user)
        if current_user.admin
 			      content_tag(:a, 'All Invoices', {href: invoices_path, class: 'btn btn-dark float-left'}) +
             content_tag(:a, 'Create New Invoice', {href: new_invoice_path, class: 'btn btn-dark float-right'}) + tag(:br) +
             content_tag(:a, 'All Gigs', {href: gigs_path, class: 'btn btn-light'}) +
             content_tag(:a, 'My Gigs', {href: user_gigs_path(current_user), class: 'btn btn-light'}) + tag(:br)
 			 end
-	end
+end
 ```
 
 This allowed me to display these buttons solely if the user was an administrator.
 
 **Content Tag Advantage**
+
 I think one of the main reasons I love content tag helpers is because you can use your path helpers inside of them (i.e. gigs_path, user_gigs_path, etc.) One I got to know these paths, it was easy for my brain to recall that helper instead of the full URL. 
 
 ## Nesting Tags
@@ -142,7 +159,8 @@ I think it is arguable that both of these are lengthy code. However, I think it 
 
 Visual Output:
 
-Blog 2
+
+https://drive.google.com/file/d/1EhA7idtugb0DdFBc32eJ6TpXJ9Z3zMaf/view?usp=sharing
 
 ## The Beloved Collection Select
 It took me forever to become more comfortable with any of the different collection select methods. I feel a lot more familiar with how they look now. It was difficult to add classes to some of the different ways I needed to use these form helpers. Here are a few examples using Bootstrap classes.
@@ -155,7 +173,7 @@ Notice how this particular method needed the two (2) separated hashes in order t
 
 Visual Output
 
-Blog4
+https://drive.google.com/file/d/13ZIp4rGDpF_mOHhc3X2GBr6aJSVWoWZG/view?usp=sharing
 
 
 
@@ -167,7 +185,7 @@ I also wanted only three (3) choices for one of the parameters on a gig for its 
 
 Visual Output
 
-Blog5
+https://drive.google.com/file/d/1F_9DQazFZKiQc0p5tGwUM9rj4fd-tBIB/view?usp=sharing
 
 
 ## Summary
