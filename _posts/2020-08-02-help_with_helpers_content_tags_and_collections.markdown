@@ -47,13 +47,21 @@ end
  
 image_tag
 
+```
 <img class="card-img-top" src="/assets/google-logo-ccc923de01fa9a0668090cb43bf4a3b907d2d2a27b57793189fd0c32536b8d6.jpg">
+```
 
 html img src with asset_path
+
+```
 <img src="/assets/google-logo-8ccc923de01fa9a0668090cb43bf4a3b907d2d2a27b57793189fd0c32536b8d6.jpg" alt="google-logo" class="card-img-top">
+```
 
 html
+
+```
 <img src="/app/assets/images/google-logo.jpb" alt="google-logo" class="card-img-top">
+```
 
 
 All Three in the View Together
@@ -85,7 +93,7 @@ I was often missing the comma after the first argument (":a") and that would thr
 
 Here's what they look like:
 
-Blog1
+
 https://drive.google.com/file/d/1VewmWED64aVh3Ue9vMtvwZtmGA1NQBRl/view?usp=sharing
 
 **Delete**
