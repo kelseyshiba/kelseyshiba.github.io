@@ -1,20 +1,20 @@
 ---
 layout: post
 title:      "Breaking Down Drag N' Drop"
-date:       2020-08-31 01:41:40 +0000
+date:       2020-08-30 21:41:41 -0400
 permalink:  breaking_down_drag_n_drop
 ---
 
 
-At the completion of my Javascript project, I found myself most confused while trying to read documentation on drag and drop and having a very difficult time understanding it. I hope that breaking some things down into layman's terms will help some of the future coders, and I hope to leave this here as a note to self for when I need the reference again as well. 
+At the completion of my Javascript project, I recall being most confused while trying to read documentation on drag and drop and having a very difficult time understanding it. I hope that breaking some things down will help some of the future coders, and I hope to leave this here as a note to self for when I need the reference again.
 
-My project is a set list maker for musicians, where you can host a list of songs that your band uses over and over again, and quickly add, edit, delete and drag and drop them into set lists that you want. You can access the project repo[ https://github.com/kelseyshiba/setlist_creator.](http://)
+My project is a set list maker for musicians, where you can host a list of songs that your band uses over and over again, and quickly add, edit, delete and drag and drop them into set lists that you want. You can access the project repo here: [ https://github.com/kelseyshiba/setlist_creator.](http://)
 
 You can access the official MDN documentation here: https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API
 
 **One-- Make items draggable**
 
-In order to make my items, which in this case were songs - I had to give them the ability to be dragged.  This was easy!  I grabble the element upon creation, and set the draggable attribute to true.
+In order to make my items, which in this case were songs - I had to give them the ability to be dragged.  This was easy!  I grabbed the element upon creation, and set the draggable attribute to true.
 
 ```
 songDiv.draggable = 'true';
@@ -42,20 +42,33 @@ dragstart_handler(e){
         //e.dataTransfer.dropEffect = 'move';
 }
 
-    dragend_handler(e){   }
+dragend_handler(e){   }
 ```
 
-I did not end up needing to execute anything upon the END OF THE DRAG or when my user lets go of the mouse.
+I did not end up needing to execute anything upon the END OF THE DRAG or when my user lets go of the mouse, so I could remove that, but I'm leaving it for demostration purposes.
 
-I did need the drag start to transfer the object data I needed to attach that exact song div to the setlist, however.  So, to rephrase this line of code: 
+I did need the drag start to transfer the object data I needed to attach that exact song div to the setlist, however.  This line of code is important: 
 
 ```
 e.dataTransfer.setData('text/plain', e.target.id)
 ```
 
-I'm taking the event data transfer object, and I'm telling it what it's going to send over to the drop object (my setlist). I'm only sending the ID of the song, and the format in which I'm sending it is in TEXT/PLAIN. Using a console log, it would just be this:
+I'm taking the event dataTransfer object, and I'm telling it / setting the data that I want to send over to the drop object (my setlist). I'm only sending the ID of the song(e.target.id) and the format in which I'm sending it is in TEXT/PLAIN. Using a console log, this is the data sent:
 
 song-1
+
+Here's a glimpse at what the dataTransfer object looks like if you console.log it (this is just a snippet):
+```
+DataTransfer {dropEffect: "none", effectAllowed: "all", items: DataTransferItemList, types: Array(1), files: FileList}
+dropEffect: "none"
+effectAllowed: "all"
+files: FileList {length: 0}
+items: DataTransferItemList {0: DataTransferItem, length: 1}
+types: ["text/plain"]
+__proto__: DataTransfer
+```
+
+This is accessed through e.dataTransfer.
 
 **Four -- the drop object**
 
@@ -68,7 +81,7 @@ setlistDiv.addEventListener('dragleave', this.dragleave_handler)
 setlistDiv.addEventListener('drop', this.drop_handler)
 ```
 
-I also made each of them their own separate functions, which I will go over one at a time:
+Here are the four corresponding functions called about on the THIS object.
 
 
 ```
@@ -87,7 +100,7 @@ dragleave_handler(e){
 }
 ```
 
-I always talk myself through things and didn't need this one for much.  However, when my user "leaves the drag" or exits the drop area, this changed the color of the area where it was back to white.
+I didn't need much during this event.  However, when my user "leaves the drag" or exits the drop area, this changed the color of the area where it was back to white.
 
 ```
  dragenter_handler(e){
@@ -96,24 +109,24 @@ I always talk myself through things and didn't need this one for much.  However,
   }
 ```
 
-When entering the drop area, or dragging into it - this changes the background to be a little bit darker so the user knows you are dragging into it. 
+When entering the drop area, or dragging into it - this changes the background to be a little bit darker so the user knows where they are allowed to drag and what will accept it.
 
 ```
 drop_handler(e){
-        e.preventDefault()//attaches to set list
+        e.preventDefault( )
         const song_id = e.dataTransfer.getData('text/plain');    //song-1
-        e.currentTarget.appendChild(document.getElementById(song_id))        
-        this.style.backgroundColor = 'rgba(0, 0, 0, 0)'; //sets background back to normal
+        e.currentTarget.appendChild(document.getElementById(song_id))        //attach it
+        this.style.backgroundColor = 'rgba(0, 0, 0, 0)';      //sets background back to normal
 
-        setlistsongsAdapter.createSetlistSong(e)
+        setlistsongsAdapter.createSetlistSong(e) // call to fetch on the join table
     }
 ```
 
-The most important piece is handling the drop.  Preventing the default, finding the thing that was attached - this was the data we sent earlier through setData, now we are using the getData to access the information of the song ID, which is song-1. Then we are catching the currentTarget, which is the div that encloses that larger set list div and appending the song to that.  I am then setting the background back to white after the drop is complete.  
+The most important piece is handling the drop.  Preventing the default, finding the thing that was attached - this was the data we sent earlier through setData, now we are using getData to access the information of the song ID, which is song-1. Then we are catching the currentTarget of the event, which is the div that encloses that larger set list div and appending the song to that.  I am then setting the background back to white after the drop is complete.  
 
-To deal with the join table relationship, when I drag a song over to a setlist, I am wanting to create a relationship between that song and that setlist, hence the final call to the method in the join table to a function that will send a fetch request and make the necessary changes. 
-
-On the opposite side, I also needed songs to be able to be removed from set lists, so I needed to deal with destroying the relationship between them and appending the song back to the songs list. 
+To deal with the join table relationship, when I drag a song over to a setlist, I wanted to create a relationship between that song and that setlist, hence the final call to the method in the join table to a function that will send a fetch request and make the necessary changes on the database side. 
+ 
+I also needed songs to be able to be removed from set lists, so I needed to deal with destroying the relationship between them and appending the song back to the songs list. 
 
 So I added all the event listeners:
 
@@ -150,6 +163,8 @@ static dragover_handler(e){
     }
 ```
 
-Again the most important piece here is the drop handler allowing me to access the song id that is being moved, resetting the background and calling the delete method to the adapter to fetch and destroy the relationship. 
+Some of these are the same as above, but again the most important piece here is the drop handler. It allows access to the song id that is being moved through getData, adds the song to the currentTarget, which is now the full list of songs, and resets the background to white. Last, it calls the delete method on the join adapter to fetch and destroy the relationship in the database.
+
+Everything looks very initimidating when reading or learning it for the first time. I hope this makes sense for those of you out there eager to complete a new drag and drop application.  Code on! ~Kelsey
 
 
