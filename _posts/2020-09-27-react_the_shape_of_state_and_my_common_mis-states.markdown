@@ -1,7 +1,7 @@
 ---
 layout: post
 title:      "React: The Shape of State and My Common Mis-states"
-date:       2020-09-27 19:08:57 +0000
+date:       2020-09-27 15:08:58 -0400
 permalink:  react_the_shape_of_state_and_my_common_mis-states
 ---
 
@@ -131,7 +131,7 @@ Ceremony belongs to a Death
 Ceremony has many Contacts
 Contacts belong to a Ceremony
 
-Here are the steps and explanations behind splitting the reducer. 
+Here are the steps and explanations behind splitting the reducer. Documentation is also available here: https://redux.js.org/api/combinereducers
 
 ```
 in index.js
